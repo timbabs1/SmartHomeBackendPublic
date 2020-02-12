@@ -15,11 +15,13 @@ const options = {
     password: "n3fXXFZrjw"
 }
 
-/* Takes the target topic(String) as argument */
+/* Takes the target topic(String) as argument from the light route*/
 exports.publishData = (topic) => {
     const client = mqtt.connect(mqttURL, options); //Connect to Broker
+    console.log(topic)
     client.on("connect", () => { //Publish to MQTT
         console.log("In publish function")
         client.publish(topic, "Hello MQTT from NodeJS!"); //Needs to be the data received from the front end.
         client.end();
-    })}
+    })
+}

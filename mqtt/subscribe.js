@@ -3,12 +3,12 @@
 const fs = require("fs")
 const mqtt = require("mqtt");
 
-const topic = "302cem/horse/request/lights"; //Will capture everything sent to horse.
+const topic = "302cem/horse/request/#"; //Will capture everything sent to horse.
 const mqttURL = "mqtt.coventry.ac.uk";
 
 const options = {
     host: mqttURL,
-    clientId: '302CEMgareth',
+    clientId: '302CEM',
     port: 8883,
     keepalive: 60,
     protocol: 'mqtts',
@@ -23,7 +23,7 @@ const client = mqtt.connect(mqttURL, options);
 /*Connect to topic*/
 client.on("connect", async () => {
     client.subscribe(topic); //Becomes subscribed to the topic and listens.
-    console.log("Connected and subscribed to topic --> /" + topic)
+    console.log("Connected and subscribed to topic --> " + topic)
 });
 
 /*Message received*/
