@@ -2,7 +2,8 @@
 
 const mqttURL = "mqtt.coventry.ac.uk";
 const fs = require("fs")
-const mqtt = require("mqtt");
+const mqtt = require("mqtt")
+const path = require("path")
 
 const options = {
     host: mqttURL,
@@ -10,18 +11,15 @@ const options = {
     keepalive: 60,
     protocol: 'mqtts',
     protocolVersion: 4,
-    cert: fs.readFileSync("./mqtt.crt"),
+    cert: fs.readFileSync(path.resolve(__dirname, "../mqtt.crt")),
     username: "302CEM",
     password: "n3fXXFZrjw"
 }
 
+const client = mqtt.connect(mqttURL, options); //Connect to Broker
+
 /* Takes the target topic(String) as argument from the light route*/
-exports.publishData = (topic) => {
-    const client = mqtt.connect(mqttURL, options); //Connect to Broker
+exports.publishData = async (topic) => {
+    client.publish(topic, "Hello MQTT from NodeJS!"); //Needs to be the data received from the front end.
     console.log(topic)
-    client.on("connect", () => { //Publish to MQTT
-        console.log("In publish function")
-        client.publish(topic, "Hello MQTT from NodeJS!"); //Needs to be the data received from the front end.
-        client.end();
-    })
 }
