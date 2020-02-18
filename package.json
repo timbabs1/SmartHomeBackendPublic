@@ -11,5 +11,15 @@
     "url": "https://github.coventry.ac.uk/302CEM-1920JANMAY/TeamHorse-302CEM-back-end.git"
   },
   "author": "Gareth Holloway",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "chalk": "^3.0.0",
+    "cors": "^2.8.5",
+    "fs": "0.0.1-security",
+    "koa": "^2.11.0",
+    "koa-websocket": "^6.0.0",
+    "mqtt": "^3.0.0",
+    "path": "^0.12.7"
+  }
 }
