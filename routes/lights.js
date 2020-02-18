@@ -8,7 +8,7 @@ router.all('/requestlight', function (ctx) { //When sent to server from frontend
   //Use functionality within here to send data back every 10 seconds.
   setInterval(async function () {await ctx.websocket.send('Some data from the MQTT subscription')}, 10000)
 
-  const topic = "302CEM/Horse/Requests/AutoLight" //topic to send requests for lights.
+  const topic = "302CEM/Horse/Requests/AutoLights" //topic to send requests for lights.
   //const topic = "302CEM/Horse/Readings/AutoLight" //Testing receipt of readings.
   ctx.websocket.on('message', function (message) { //Message received, run this function.
     if (message === "close") {
