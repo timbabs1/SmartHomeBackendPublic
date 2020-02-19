@@ -2,7 +2,7 @@
 
 const mysql = require('promise-mysql');
 
-const info = require('../config');
+const info = require('./config');
 
 
 
@@ -13,16 +13,13 @@ exports.createDatabase = async () => {
 
     const connection = await mysql.createConnection({
 
-        host: "Localhost",
+        host: "localhost",
 
         user: "root",
 
-        password: "Horse"
+        password: ""
 
     })
-
-
-
 
     await connection.query("CREATE DATABASE IF NOT EXISTS Agile")
 
@@ -38,32 +35,23 @@ exports.createTables = async () => {
 
         const connection = await mysql.createConnection(info.config);
         let sql = `CREATE TABLE IF NOT EXISTS light ( 
+            ID INT NOT NULL AUTO_INCREMENT,
+            Room TEXT, 
+            DateTime DATETIME, 
+            Action TINYINT, 
+            Brightness INT,                              
+            PRIMARY KEY (ID) 
 
-                Room VARCHAR64, 
-
-                Date/Time DATETIME, 
-
-                Action TINYINT1, 
-
-                Brightness INT9,                              
-
-                PRIMARY KEY (Room) 
-
-            )`;
+        )`;
 
         await connection.query(sql)
 
-        let sql = `CREATE TABLE IF NOT EXISTS lightstate ( 
-
-                Room VARCHAR64, 
-
-                CurrentState TINYINT1,                              
-
-                PRIMARY KEY (Room), 
-
-                FOREIGN KEY (Room) REFERENCES light(Room), 
-
-            )`;
+        sql = `CREATE TABLE IF NOT EXISTS lightstate(
+            ID INT NOT NULL AUTO_INCREMENT,
+            Room TEXT,
+            CurrentState TINYINT,
+            PRIMARY KEY(ID)
+        )`;
 
         await connection.query(sql)
 
