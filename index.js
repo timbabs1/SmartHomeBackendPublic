@@ -15,12 +15,18 @@ app.use(cors())
 database.createDatabase()
 database.createTables()
 
+
 // Opens a web socket port to use for communicating with the front end.
 app.ws.use(lights.routes())
-
-// Start Subscriptions
-subscribe.subscribeToData("302CEM/Horse/Readings/#")
 
 app.listen(port, () => {
     console.log(`Server running on ${chalk.green(port)}`)
 })
+
+let appContext = app.ws.use(function(ctx, next) {
+    // return `next` to pass the context (ctx) on to the next ws middleware
+    return next(ctx);
+  });
+
+// Start Subscriptions
+subscribe.subscribeToData("302CEM/Horse/Readings/#", appContext)

@@ -1,22 +1,34 @@
 const Router = require('koa-router');
 const router = new Router();
 const publish = require('../mqtt/publish')
+const lights = require('../models/lights')
+const mysql = require('promise-mysql')
+const info = require('../database/config')
+
 
 /*The path to a constant connection. Incoming connections can be specifically tagged to target different routes to get different functionalities*/
-router.all('/requestlight', function (ctx) { //When sent to server from frontend using the /requestlight route. 
+router.all('/requestlight', async function (ctx) { //When sent to server from frontend using the /requestlight route. 
 
-  //Use functionality within here to send data back every 10 seconds.
+  /*Sends the data to the front end via websocket, extracts latest values, then sends every 10 seconds*/
+  setInterval(async () => {
+    const connection = await mysql.createConnection(info.config);
+    let sql = `SELECT * FROM lightstate`;
+    let data = await connection.query(sql);   //wait for the async code to finish
+    await connection.end();//wait until connection to db is closed
+    console.log(data)
+    return ctx.websocket.send(JSON.stringify(data[0]))
+  }, 10000);
 
   const topic = "302CEM/Horse/Requests/AutoLights" //topic to send requests for lights.
-  //const topic = "302CEM/Horse/Readings/AutoLight" //Testing receipt of readings.
-  ctx.websocket.on('message', function (message) { //Message received, run this function.
+  await ctx.websocket.on('message', function (message) { //Message received, run this function.
     if (message === "close") {
       ctx.websocket.close() //Closes the connection, best to send "close" when navigating from page on front end.
     } else {
-      //console.log(message); //Display message sent from client.
+      console.log("publishing")
       publish.publishData(topic) //Received message on websocket so publish it.
     }
   });
 });
+
 
 module.exports = router
