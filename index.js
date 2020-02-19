@@ -14,8 +14,8 @@ app.use(cors())
 app.ws.use(lights.routes())
 
 // Start Subscriptions
-subscribe.subscribeToData("302CEM/Horse/Readings/AutoLights")
+subscribe.subscribeToData("302CEM/Horse/Readings/#")
 
 app.listen(port, () => {
     console.log(`Server running on ${chalk.green(port)}`)
-});
+})
