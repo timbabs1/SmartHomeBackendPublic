@@ -55,6 +55,21 @@ exports.createTables = async () => {
 
         await connection.query(sql)
 
+        sql = `SELECT * FROM lightstate`;
+
+        const result = await connection.query(sql);
+
+        /*Insert the appropriate device types into the devices table. This is to provide reference for post login*/
+        if (result.length === 0) {
+            const rooms = ['bedroom 1', 'kitchen', 'bathroom']
+            const state = [0,0,0]
+            for (let i = 0; i < rooms.length; i++) {
+                sql = `INSERT INTO lightstate(Room, CurrentState) 
+            VALUES('${rooms[i]}', '${state[i]}')`;
+
+                await connection.query(sql);
+            }
+        }
 
         return { message: "created successfully" };
 

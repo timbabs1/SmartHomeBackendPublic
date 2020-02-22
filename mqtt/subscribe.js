@@ -1,9 +1,9 @@
-/*Subscribe will collect the data from the Microcontroller via MQTT*/
-
+/*Subscribe*/
 const fs = require("fs")
 const mqtt = require("mqtt");
 const mqttURL = "mqtt.coventry.ac.uk";
 const path = require("path")
+const lightsModel = require("../models/lights")
 
 const options = {
     host: mqttURL,
@@ -19,18 +19,23 @@ const options = {
 
 const client = mqtt.connect(mqttURL, options);
 
-exports.subscribeToData = async (topic) => {
+exports.subscribeToData = async (topic, ctx) => {
     /*Connect to topic*/
-    client.on("connect", function () {
-        client.subscribe(topic); //Becomes subscribed to the topic and listens.
-        console.log("Connected and subscribed to topic --> " + topic)
-    });
+  client.on("connect", function () {
+    client.subscribe(topic); //Becomes subscribed to the topic and listens.
+    console.log("Connected and subscribed to topic --> " + topic)
+  });
 
-    /*Message received*/
-    client.on("message", function (topic, message) {
-        // Needs functionality to work out what to do with the data here.
-        console.log(topic);
-        console.log("message data: " + message.toString());
-    })
-
+  /*Message received*/
+  client.on("message", async (topic, message) => {
+    let jsonMessage = await JSON.parse(message.toString())
+    if (topic === "302CEM/Horse/Readings/AutoLights") {
+      if (await lightsModel.processTopic(jsonMessage) === "Change") {
+        console.log(changed)
+      }
+    } else {
+      console.log("No change.")
+      console.log("message data: " + message.toString());
+    }
+  })
 }
