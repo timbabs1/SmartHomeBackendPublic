@@ -6,21 +6,21 @@ const path = require("path")
 const lightsModel = require("../models/lights")
 
 const options = {
-    host: mqttURL,
-    clientId: '302CEM',
-    port: 8883,
-    keepalive: 60,
-    protocol: 'mqtts',
-    protocolVersion: 4,
-    cert: fs.readFileSync(path.resolve(__dirname, "../mqtt.crt")),
-    username: "302CEM",
-    password: "n3fXXFZrjw"
+  host: mqttURL,
+  clientId: '302CEM',
+  port: 8883,
+  keepalive: 60,
+  protocol: 'mqtts',
+  protocolVersion: 4,
+  cert: fs.readFileSync(path.resolve(__dirname, "../mqtt.crt")),
+  username: "302CEM",
+  password: "n3fXXFZrjw"
 }
 
 const client = mqtt.connect(mqttURL, options);
 
 exports.subscribeToData = async (topic, ctx) => {
-    /*Connect to topic*/
+  /*Connect to topic*/
   client.on("connect", function () {
     client.subscribe(topic); //Becomes subscribed to the topic and listens.
     console.log("Connected and subscribed to topic --> " + topic)
@@ -31,11 +31,12 @@ exports.subscribeToData = async (topic, ctx) => {
     let jsonMessage = await JSON.parse(message.toString())
     if (topic === "302CEM/Horse/Readings/AutoLights") {
       if (await lightsModel.processTopic(jsonMessage) === "Change") {
-        console.log(changed)
+        console.log("Changed")
+      } else {
+        console.log("message data: " + message.toString());
       }
     } else {
-      console.log("No change.")
-      console.log("message data: " + message.toString());
+      console.log("Unknown Topic.")
     }
   })
 }
