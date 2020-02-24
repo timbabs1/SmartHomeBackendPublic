@@ -9,7 +9,6 @@ exports.processTopic = async (message) => {
         let sql = `SELECT CurrentState FROM lightstate`;
         let data = await connection.query(sql);   //wait for the async code to finish
         await connection.end(); //wait until connection to db is closed
-
         if (data[0].CurrentState === message.Light_status) {
             console.log("No Change")
             return "No Change"
@@ -17,7 +16,6 @@ exports.processTopic = async (message) => {
             //Update the record to be the new value. 
             //Need Room and State in following format e.g "{\"Room\": \"bedroom\", \"Light_status\": 0}"
             await updateRecord(message.Light_status, message.Room)
-            console.log("Changed")
             return "Changed"
         }
     } catch (error) {
@@ -34,5 +32,28 @@ async function updateRecord(value, room) {
     let sql = `UPDATE lightstate SET CurrentState = '${value}' WHERE Room = '${room}'`; //Set the updated value in the DB.
     await connection.query(sql);
     await connection.end();
-    console.log("Updated")
-} 
+    await storeRecord(value, room)
+}
+
+/*Stores record of change when confirmed change has happened by the microcontroller, in this case, 0 to 9 for power setting.*/
+async function storeRecord(value, room) {
+    /*Generate a date/timestamp */
+    let date = new Date();
+    let hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    let min = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    let sec = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    let day = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    let dateAndTimeFormatting = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+
+    const connection = await mysql.createConnection(info.config)
+    let sql = `INSERT INTO light(Room, DateTime, Brightness) VALUES('${room}', '${dateAndTimeFormatting}', '${value}')`;
+    await connection.query(sql);
+}
