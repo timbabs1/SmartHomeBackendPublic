@@ -20,6 +20,7 @@ const client = mqtt.connect(mqttURL, options); //Connect to Broker
 
 /* Takes the target topic(String) as argument from the light route*/
 exports.publishData = async (topic) => {
+    /*Needs some check for state change and then publish to MQTT*/
     client.publish(topic, "Hello MQTT from NodeJS!"); //Needs to be the data received from the front end.
     console.log(topic)
 }

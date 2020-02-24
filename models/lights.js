@@ -8,7 +8,7 @@ exports.processTopic = async (message) => {
         const connection = await mysql.createConnection(info.config);
         let sql = `SELECT CurrentState FROM lightstate`;
         let data = await connection.query(sql);   //wait for the async code to finish
-        await connection.end();//wait until connection to db is closed
+        await connection.end(); //wait until connection to db is closed
 
         if (data[0].CurrentState === message.Light_status) {
             console.log("No Change")
