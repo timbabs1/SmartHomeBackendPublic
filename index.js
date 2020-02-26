@@ -29,4 +29,4 @@ let appContext = app.ws.use(function(ctx, next) {
   });
 
 // Start Subscriptions
-subscribe.subscribeToData("302CEM/Horse/Readings/#", appContext)
+subscribe.subscribeToData("302CEM/Horse/Readings/AutoLights", appContext)

@@ -6,7 +6,7 @@ exports.processTopic = async (message) => {
     console.log("The message " + message)
     try {
         const connection = await mysql.createConnection(info.config);
-        let sql = `SELECT CurrentState FROM lightstate`;
+        let sql = `SELECT CurrentState FROM lightstate Where Room = '${message.Room}'`;
         let data = await connection.query(sql);   //wait for the async code to finish
         await connection.end(); //wait until connection to db is closed
         if (data[0].CurrentState === message.Light_status) {

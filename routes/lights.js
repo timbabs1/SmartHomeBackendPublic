@@ -16,7 +16,7 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
     let data = await connection.query(sql);   //wait for the async code to finish
     await connection.end();//wait until connection to db is closed
     return ctx.websocket.send(JSON.stringify(data))
-  }, 10000);
+  }, 20000);
 
   const topic = "302CEM/Horse/Requests/AutoLights" //topic to send requests for lights.
   await ctx.websocket.on('message', function (message) { //Message received, run this function.
