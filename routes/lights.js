@@ -15,9 +15,8 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
     let sql = `SELECT * FROM lightstate`;
     let data = await connection.query(sql);   //wait for the async code to finish
     await connection.end();//wait until connection to db is closed
-    console.log(data)
-    return ctx.websocket.send(JSON.stringify(data[0]))
-  }, 10000);
+    return ctx.websocket.send(JSON.stringify(data))
+  }, 20000);
 
   const topic = "302CEM/Horse/Requests/AutoLights" //topic to send requests for lights.
   await ctx.websocket.on('message', function (message) { //Message received, run this function.
@@ -25,7 +24,7 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
       ctx.websocket.close() //Closes the connection, best to send "close" when navigating from page on front end.
     } else {
       console.log("publishing")
-      publish.publishData(topic) //Received message on websocket so publish it.
+      publish.publishData(topic, message) //Received message on websocket so publish it.
     }
   });
 });

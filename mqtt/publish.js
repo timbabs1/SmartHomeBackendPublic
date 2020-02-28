@@ -4,6 +4,7 @@ const mqttURL = "mqtt.coventry.ac.uk";
 const fs = require("fs")
 const mqtt = require("mqtt")
 const path = require("path")
+const lightsModel = require("../models/lights")
 
 const options = {
     host: mqttURL,
@@ -19,8 +20,11 @@ const options = {
 const client = mqtt.connect(mqttURL, options); //Connect to Broker
 
 /* Takes the target topic(String) as argument from the light route*/
-exports.publishData = async (topic) => {
-    /*Needs some check for state change and then publish to MQTT*/
-    client.publish(topic, "Hello MQTT from NodeJS!"); //Needs to be the data received from the front end.
-    console.log(topic)
+exports.publishData = async (topic, message) => {
+    if (topic === "302CEM/Horse/Requests/AutoLights") {
+        client.publish(topic, message.toString()); //Needs to be the data received from the front end.
+        console.log(topic)
+    }else{
+        console.log("Unknown Topic")
+    }
 }

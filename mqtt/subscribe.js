@@ -19,7 +19,7 @@ const options = {
 
 const client = mqtt.connect(mqttURL, options);
 
-exports.subscribeToData = async (topic, ctx) => {
+exports.subscribeToData = async (topic) => {
   /*Connect to topic*/
   client.on("connect", function () {
     client.subscribe(topic); //Becomes subscribed to the topic and listens.
