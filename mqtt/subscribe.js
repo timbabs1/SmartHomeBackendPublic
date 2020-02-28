@@ -35,7 +35,9 @@ exports.subscribeToData = async (topic) => {
       } else {
         console.log("message data: " + message.toString());
       }
-    } else {
+    }if (topic === "302CEM/Horse/Readings/Temperature"){
+        console.log("Temperature " + message.toString())
+    }else {
       console.log("Unknown Topic.")
     }
   })
