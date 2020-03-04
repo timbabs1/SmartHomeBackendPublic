@@ -90,7 +90,7 @@ exports.createTables = async () => {
 
         /*Insert the appropriate device types into the devices table. This is to provide reference for post login*/
         if (result.length === 0) {
-            const rooms = ['bedroom 1', 'kitchen', 'bathroom']
+            const rooms = ['Bedroom', 'kitchen', 'bathroom']
             const state = [0,0,0]
             for (let i = 0; i < rooms.length; i++) {
                 sql = `INSERT INTO lightstate(Room, CurrentState) 
