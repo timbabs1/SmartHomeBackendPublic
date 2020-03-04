@@ -36,8 +36,8 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
       console.log("publishing")
       /*{\"Room\": \"roomName\",  //Data format.
         \"Target_Temperature\": \"<value>\", 
-        \"CurrentTemperature\":\"currentTemp\",
-        \"CurrentSetting\": \"Day/Night\"}*/
+        \"Temperature\":\"currentTemp\",
+        \"Setting\": \"Day/Night\"}*/
       //Step 1. fill the log table.
       //Step 2. send the data to the backend.
       //Need method here to handle the incoming data. This will be request based and fill in the LOG table with FE requests.
