@@ -55,6 +55,33 @@ exports.createTables = async () => {
 
         await connection.query(sql)
 
+        sql = `CREATE TABLE IF NOT EXISTS temperature ( 
+            ID INT NOT NULL AUTO_INCREMENT,
+            Room TEXT,
+            DateTime DATETIME,
+            Duration INT,
+            Setting TINYINT,
+            Temperature INT, 
+            Target_Temperature INT,  
+            PRIMARY KEY (ID) 
+        
+        )`;
+        
+        await connection.query(sql)
+
+        sql = `CREATE TABLE IF NOT EXISTS temperaturelog (  
+            ID INT NOT NULL AUTO_INCREMENT,  
+            Room TEXT,
+            DateTime DATETIME, 
+            Temperature INT,
+            Setting TINYINT,
+            Duration INT,
+            PRIMARY KEY (ID)
+        
+        )`;
+
+        await connection.query(sql)
+
         sql = `SELECT * FROM lightstate`;
 
         const result = await connection.query(sql);
