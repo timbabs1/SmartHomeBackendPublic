@@ -36,6 +36,8 @@ exports.subscribeToData = async (topic) => {
         console.log("message data: " + message.toString());
       }
     }if (topic === "302CEM/Horse/Readings/Temperature"){
+        //Call method containing the logic to store and update incoming microcontroller data.
+        //Data will go into the temperature table.
         console.log("Temperature " + message.toString())
     }else {
       console.log("Unknown Topic.")

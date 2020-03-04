@@ -24,6 +24,9 @@ exports.publishData = async (topic, message) => {
     if (topic === "302CEM/Horse/Requests/AutoLights") {
         client.publish(topic, message.toString()); //Needs to be the data received from the front end.
         console.log(topic)
+    }if (topic === "302CEM/Horse/Requests/Temperature") {
+        client.publish(topic, message.toString()); //Needs to be the data received from the front end.
+        console.log(topic)
     }else{
         console.log("Unknown Topic")
     }
