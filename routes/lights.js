@@ -1,7 +1,6 @@
 const Router = require('koa-router');
 const router = new Router();
 const publish = require('../mqtt/publish')
-const lights = require('../models/lights')
 const mysql = require('promise-mysql')
 const info = require('../database/config')
 
@@ -18,7 +17,7 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
     return ctx.websocket.send(JSON.stringify(data))
   }, 20000);
 
-  const topic = "302CEM/Horse/Requests/AutoLights" //topic to send requests for lights.
+  const topic = "302CEM/Horse/Requests/AutoLight" //topic to send requests for lights.
   await ctx.websocket.on('message', function (message) { //Message received, run this function.
     if (message === "close") {
       ctx.websocket.close() //Closes the connection, best to send "close" when navigating from page on front end.
