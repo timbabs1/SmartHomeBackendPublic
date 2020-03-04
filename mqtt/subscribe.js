@@ -36,6 +36,8 @@ exports.subscribeToData = async (topic) => {
         console.log("message data: " + message.toString());
       }
     }if (topic === "302CEM/Horse/Readings/Temperature"){
+        //Step 1. fill the log table. Store the requested changes.
+        //Step 2. store and update the incoming data. Data will go into the temperature table.
         console.log("Temperature " + message.toString())
     }else {
       console.log("Unknown Topic.")

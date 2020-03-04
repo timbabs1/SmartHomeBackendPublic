@@ -55,11 +55,11 @@ exports.createTables = async () => {
 
         await connection.query(sql)
 
+        /*Used for all the primary functionalities for temp*/
+        /*one line for each room*/
         sql = `CREATE TABLE IF NOT EXISTS temperature ( 
             ID INT NOT NULL AUTO_INCREMENT,
             Room TEXT,
-            DateTime DATETIME,
-            Duration INT,
             Setting TINYINT,
             Temperature INT, 
             Target_Temperature INT,  
@@ -69,13 +69,15 @@ exports.createTables = async () => {
         
         await connection.query(sql)
 
+        /*Stores the logs of changes*/
         sql = `CREATE TABLE IF NOT EXISTS temperaturelog (  
             ID INT NOT NULL AUTO_INCREMENT,  
             Room TEXT,
             DateTime DATETIME, 
-            Temperature INT,
             Setting TINYINT,
             Duration INT,
+            Temperature INT,
+            Target_Temperature INT,
             PRIMARY KEY (ID)
         
         )`;
