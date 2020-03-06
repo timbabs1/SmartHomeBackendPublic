@@ -59,3 +59,20 @@ async function storeRecord(value, room) {
     let sql = `INSERT INTO light(Room, DateTime, Brightness) VALUES('${room}', '${dateAndTimeFormatting}', '${value}')`;
     await connection.query(sql);
 }
+
+exports.lightCurrentState = async function (){
+    const connection = await mysql.createConnection(info.config);
+    let sql = `SELECT * FROM lightstate`;
+    let data = await connection.query(sql);   //wait for the async code to finish
+    await connection.end();//wait until connection to db is closed
+    return data
+}
+
+exports.logRequest = async function () {
+    console.log("Log request")
+    const connection = await mysql.createConnection(info.config);
+    let sql = `SELECT * FROM light`; //Grabs all data from temperaturelog table and sends it.
+    let data = await connection.query(sql);   //wait for the async code to finish.
+    await connection.end();//wait until connection to db is closed
+    return data
+}
