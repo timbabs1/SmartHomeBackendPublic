@@ -64,3 +64,21 @@ async function storeRecord(targetTempValue, actualTempValue, room) {
     let sql = `INSERT INTO temperaturelog(Room, DateTime, Temperature, Target_Temperature) VALUES('${room}', '${dateAndTimeFormatting}', '${actualTempValue}', '${targetTempValue}')`;
     await connection.query(sql);
 }
+
+exports.logRequest = async function () {
+      console.log("Log request")
+      const connection = await mysql.createConnection(info.config);
+      let sql = `SELECT * FROM temperaturelog`; //Grabs all data from temperaturelog table and sends it.
+      let data = await connection.query(sql);   //wait for the async code to finish.
+      await connection.end();//wait until connection to db is closed
+      return data
+}
+
+exports.currentState = async function () {
+    let data = {}
+    const connection = await mysql.createConnection(info.config);
+    let sql = `SELECT * FROM temperature`; //Grabs all data from temperature table and sends it.
+    data.currentTempInfo = await connection.query(sql);   //wait for the async code to finish.
+    await connection.end();//wait until connection to db is closed
+    return data
+}
