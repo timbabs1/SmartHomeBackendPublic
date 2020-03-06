@@ -25,10 +25,5 @@ app.listen(port, () => {
     console.log(`Server running on ${chalk.green(port)}`)
 })
 
-let appContext = app.ws.use(function(ctx, next) {
-    // return `next` to pass the context (ctx) on to the next ws middleware
-    return next(ctx);
-  });
-
 // Start Subscriptions
-subscribe.subscribeToData("302CEM/Horse/Readings/#", appContext)
+subscribe.subscribeToData("302CEM/Horse/Readings/#")
