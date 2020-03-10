@@ -20,7 +20,7 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
     console.log(message)
     if (message === "close") {
       ctx.websocket.close() //Closes the connection, best to send "close" when navigating from page on front end.
-    }if (message === "logs") { //Send a request that simply states logs.
+    } if (message === "logs") { //Send a request that simply states logs.
       let data = await temperature.logRequest()
       ctx.websocket.send(JSON.stringify(data))
     } else {
@@ -28,7 +28,7 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
       /*{\"Room\": \"roomName\",  //Data format.
         \"Target_Temperature\": \"<value>\", 
         \"Temperature\":\"currentTemp\",
-        \"Setting\": \"Day/Night\"}*/
+        \"Setting\": \"<Day/Night>\"}*/
       //Step 1. fill the log table.
       //Step 2. send the data to the mqtt server.
       //Need method here to handle the incoming data. This will be request based and fill in the LOG table with FE requests.
