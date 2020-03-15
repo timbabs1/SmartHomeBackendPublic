@@ -10,7 +10,7 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
   ctx.websocket.send("Connected To Temp Websocket.")
 
   /*Sends the data to the front end via websocket, extracts latest values, then sends every 20 seconds*/
-  setInterval(async () => {
+  let interval = setInterval(async () => {
     let data = {}
     data.currentState = await temperature.currentState();
     data.predictedTurnOnDay = await temperature.turnOnTimeDay("Bedroom");
@@ -22,11 +22,12 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
     console.log(message)
     if (message === "close") {
-      ctx.websocket.close() //Closes the connection, best to send "close" when navigating from page on front end.
-    } if (message === "logs") { //Send a request that simply states logs.
+      ctx.websocket.close()
+      clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
+    } else if (message === "logs") { //Send a request that simply states logs.
       let data = await temperature.logRequest()
       ctx.websocket.send(JSON.stringify(data))
-    } else {
+    } else if(message != "logs" || message != "close") {
       console.log("publishing")
       /*{\"Room\": \"roomName\",  //Data format.
         \"Target_Temperature\": \"<value>\", 
@@ -39,6 +40,5 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
     }
   });
 });
-
 
 module.exports = router
