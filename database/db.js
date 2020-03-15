@@ -74,7 +74,7 @@ exports.createTables = async () => {
             ID INT NOT NULL AUTO_INCREMENT,  
             Room TEXT,
             DateTime DATETIME, 
-            Setting TINYINT,
+            Setting TEXT,
             Duration INT,
             Temperature INT,
             Target_Temperature INT,

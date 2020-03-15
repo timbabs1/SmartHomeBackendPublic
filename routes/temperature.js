@@ -11,9 +11,12 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
 
   /*Sends the data to the front end via websocket, extracts latest values, then sends every 20 seconds*/
   setInterval(async () => {
-    let data = await temperature.currentState();
+    let data = {}
+    data.currentState = await temperature.currentState();
+    data.predictedTurnOnDay = await temperature.turnOnTimeDay("Bedroom");
+    data.predictedTurnOnNight = await temperature.turnOnTimeNight("Bedroom");
     return ctx.websocket.send(JSON.stringify(data))
-  }, 20000);
+  }, 10000);
 
   const topic = "302CEM/Horse/Requests/Temperature" //topic to send requests for lights.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
