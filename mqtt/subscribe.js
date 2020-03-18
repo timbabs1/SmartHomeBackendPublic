@@ -36,17 +36,14 @@ exports.subscribeToData = async (topic) => {
       } else {
         console.log("message data: " + message.toString());
       }
-    } if (topic === "302CEM/Horse/Readings/TemperatureSensor") {
+    } else if (topic === "302CEM/Horse/Readings/TemperatureSensor") {
       if (await temperatureModel.processTopic(jsonMessage) === "Change") {
         console.log("Changed")
       } else {
         console.log("message data: " + message.toString());
       }
-      //Step 1. fill the log table. Store the requested changes.
-      //Step 2. store and update the incoming data. Data will go into the temperature table.
-      console.log(message.toString())
     } else {
-      console.log("Unknown Topic.")
+      console.log("Unknown Topic. " + "Topic: " + topic.toString() + " Message: " + message.toString())
     }
   })
 }

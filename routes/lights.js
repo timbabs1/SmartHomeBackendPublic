@@ -14,7 +14,8 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
   }, 20000);
 
   const topic = "302CEM/Horse/Requests/AutoLight" //topic to send requests for lights.
-  await ctx.websocket.on('message', async function (message) { //Message received, run this function.
+    await ctx.websocket.on('message', async function (message) { //Message received, run this function.
+    console.log(message) //Display the current message received via websocket.
     if (message === "close") {
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
