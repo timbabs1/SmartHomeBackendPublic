@@ -8,6 +8,7 @@ Port: 8000
 
 Current routes:
 - /requestlight
+
 - /requesttemp
 
 
@@ -32,4 +33,4 @@ clone the repository:
 To Note:
 
 "logs" sent to the temp route will return all of the logs.
-"close" on both the front end back end will close the websocket connections until the page is reloaded.
+"close" message on both the lights and temperature routes will close the websocket connections until the page is reloaded.
