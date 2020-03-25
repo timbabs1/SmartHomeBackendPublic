@@ -30,7 +30,7 @@ exports.subscribeToData = async (topic) => {
   /*Message received*/
   client.on("message", async (topic, message) => {
     let jsonMessage = await JSON.parse(message.toString())
-    if (topic === "302CEM/Horse/Readings/AutoLight") {
+    if (topic === "302CEM/Horse/Readings/AutoLights") {
       if (await lightsModel.processTopic(jsonMessage) === "Change") {
         console.log("Changed")
       } else {
