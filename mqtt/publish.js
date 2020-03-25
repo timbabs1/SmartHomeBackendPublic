@@ -21,11 +21,19 @@ const client = mqtt.connect(mqttURL, options); //Connect to Broker
 
 /* Takes the target topic(String) as argument from the light route*/
 exports.publishData = async (topic, message) => {
-    if (topic === "302CEM/Horse/Requests/AutoLights") {
-        client.publish(topic, message.toString()); //Needs to be the data received from the front end.
+    let jsonMessage = JSON.parse(message)
+    console.log(jsonMessage)
+
+    //Format of data required from front end {\"Light_status\" : <value> }.
+    if ('Light_status' in jsonMessage){ // This will send data regarding turning on or off.
+        topic === "302CEM/Horse/Requests/AutoLight"
+        client.publish(topic, "0"); //Needs to be the data received from the front end.
+        client.publish(topic, jsonMessage.Light_status.toString()); //Needs to be the data received from the front end.
         console.log(topic)
-    }if (topic === "302CEM/Horse/Requests/Temperature") {
-        client.publish(topic, message.toString()); //Needs to be the data received from the front end.
+    // Format required for temp { \"Target_temperature\": \"25\" }.
+    }else if ('Target_temperature' in jsonMessage){
+        client.publish("302CEM/Horse/Requests/TemperatureSensor/AutoTempManagement", "0"); //Needs to be the data received from the front end.
+        client.publish("302CEM/Horse/Requests/TemperatureSensor/TargetTemperature", jsonMessage.Target_temperature.toString()); //Needs to be the data received from the front end.
         console.log(topic)
     }else{
         console.log("Unknown Topic")

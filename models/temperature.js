@@ -3,8 +3,6 @@ const info = require('../database/config')
 
 /*Process data coming in on temperature topic(MQTT)*/
 exports.processTopic = async (message) => {
-    console.log("The message " + message)
-    console.log(message.Target_Temperature)
     try {
         const connection = await mysql.createConnection(info.config);
         let sql = `SELECT * FROM temperature Where Room = '${message.Room}'`;
@@ -32,7 +30,7 @@ exports.processTopic = async (message) => {
 
 async function updateRecord(targetTempValue, actualTempValue, room) {
     const connection = await mysql.createConnection(info.config)
-    console.log(targetTempValue + " " + room)
+    //console.log(targetTempValue + " " + room)
     let sql = `UPDATE temperature SET Target_Temperature = '${targetTempValue}' WHERE Room = '${room}'`; //Set the updated value in the DB.
     await connection.query(sql);
     sql = `UPDATE temperature SET Temperature = '${actualTempValue}' WHERE Room = '${room}'`; //Set the updated value in the DB.
