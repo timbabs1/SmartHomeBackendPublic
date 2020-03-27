@@ -32,12 +32,14 @@ exports.subscribeToData = async (topic) => {
     console.log("Received Message on Subscribe")
     let jsonMessage = await JSON.parse(message.toString())
     console.log("Received Message on Subscribe")
+    
     if (topic === "302CEM/Horse/Readings/AutoLights") {
       if (await lightsModel.processTopic(jsonMessage) === "Change") {
         return console.log("Changed")
       } else {
         return console.log(topic + " message data: " + message.toString());
       }
+
     } else if (topic === "302CEM/Horse/Readings/TemperatureSensor") {
       if (await temperatureModel.processTopic(jsonMessage) === "Change") {
         return console.log("Changed")
