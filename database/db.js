@@ -21,9 +21,11 @@ exports.createDatabase = async () => {
 
     })
 
-    await connection.query("CREATE DATABASE IF NOT EXISTS Agile")
+    await connection.query("CREATE DATABASE IF NOT EXISTS agile")
 
     connection.end()
+
+    return "created successfully";
 
 }
 
@@ -50,6 +52,30 @@ exports.createTables = async () => {
             ID INT NOT NULL AUTO_INCREMENT,
             Room TEXT,
             CurrentState TINYINT,
+            PRIMARY KEY(ID)
+        )`;
+
+        await connection.query(sql)
+
+        sql = `CREATE TABLE IF NOT EXISTS alarmlog ( 
+            ID INT NOT NULL AUTO_INCREMENT, 
+            DateTime DATETIME,
+            FrontDoorStatus TINYINT,
+            BackDoorStatus TINYINT,
+            IntruderStatus TINYINT,
+            AlarmActivationState TINYINT,                             
+            PRIMARY KEY (ID) 
+
+        )`;
+
+        await connection.query(sql)
+
+        sql = `CREATE TABLE IF NOT EXISTS alarmstate(
+            ID INT NOT NULL AUTO_INCREMENT,
+            FrontDoorStatus TINYINT,
+            BackDoorStatus TINYINT,
+            IntruderStatus TINYINT,
+            AlarmActivationState TINYINT,
             PRIMARY KEY(ID)
         )`;
 
@@ -116,7 +142,9 @@ exports.createTables = async () => {
             }
         }
 
-        return { message: "created successfully" };
+        connection.end()
+
+        return "created successfully";
 
 
     } catch (error) {

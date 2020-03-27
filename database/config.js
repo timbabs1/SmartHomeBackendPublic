@@ -8,7 +8,7 @@ exports.config = {
 
     password: process.env.DB_PASSWORD || "", 
 
-    database: process.env.DB_DATABASE || "Agile", 
+    database: process.env.DB_DATABASE || "agile", 
 
     connectionLimit: 100 
 
