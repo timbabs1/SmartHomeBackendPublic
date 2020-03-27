@@ -5,6 +5,7 @@ const mqttURL = "mqtt.coventry.ac.uk";
 const path = require("path")
 const lightsModel = require("../models/lights")
 const temperatureModel = require("../models/temperature")
+const alarmModel = require("../models/alarm")
 
 const options = {
   host: mqttURL,
@@ -29,10 +30,7 @@ exports.subscribeToData = async (topic) => {
 
   /*Message received*/
   client.on("message", async (topic, message) => {
-    console.log("Received Message on Subscribe")
-    let jsonMessage = await JSON.parse(message.toString())
-    console.log("Received Message on Subscribe")
-    
+    let jsonMessage = await JSON.parse(message.toString())    
     if (topic === "302CEM/Horse/Readings/AutoLights") {
       if (await lightsModel.processTopic(jsonMessage) === "Change") {
         return console.log("Changed")
@@ -52,6 +50,7 @@ exports.subscribeToData = async (topic) => {
     } else if (topic === "302CEM/Horse/Readings/Window") {
       return console.log(topic + " message data: " + message.toString());
     } else if (topic === "302CEM/Horse/Readings/HomeSecurity") {
+      await alarmModel.processTopic(jsonMessage) === "Change"
       return console.log(topic + " message data: " + message.toString());
     } else {
       return console.log("Unknown Topic. " + "Topic: " + topic.toString() + " Message: " + message.toString())
