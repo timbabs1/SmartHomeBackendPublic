@@ -27,4 +27,4 @@ app.listen(port, () => {
 })
 
 // Start Subscriptions
-subscribe.subscribeToData(chalk.blue("302CEM/Horse/Readings/#"))
+subscribe.subscribeToData("302CEM/Horse/Readings/#")
