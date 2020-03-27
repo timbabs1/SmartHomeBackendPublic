@@ -11,13 +11,18 @@ router.all('/requestalarm', async function (ctx) { //When sent to server from fr
     return ctx.websocket.send("Sending Data")
   }, 10000);
 
-  const topic = "302CEM/Horse/Requests/Alarm" //topic to send requests for lights.
+  const topic = "302CEM/Horse/Requests/Alarm" //topic to send requests for alarm.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
     console.log(message) //Display the current message received via websocket.
+
     if (message === "close") {
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
-    }else if (message != "logs" || message != "close") {
+    }
+    else if (message === "logs") {
+      console.log("Requested Logs")
+    }
+    else if (message != "logs" || message != "close") {
       console.log("publishing")
       publish.publishData(topic, message) //Received message on websocket so publish it.
     }
