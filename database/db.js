@@ -77,10 +77,22 @@ exports.createTables = async () => {
             BackDoorStatus TINYINT,
             IntruderStatus TINYINT,
             AlarmActivationState TINYINT,
+            SilentAlarmStatus TINYINT,
             PRIMARY KEY(ID)
         )`;
 
         await connection.query(sql)
+
+        sql = `SELECT * FROM alarmstate`;
+
+        let result = await connection.query(sql);
+
+        if(result.length === 0){
+           sql = `INSERT INTO alarmstate(FrontDoorStatus, BackDoorStatus, IntruderStatus, AlarmActivationState, SilentAlarmStatus) 
+            VALUES('0', '0', '0', '0', '0')`;
+            await connection.query(sql); 
+        }
+        
 
         /*Used for all the primary functionalities for temp*/
         /*one line for each room*/
@@ -113,7 +125,7 @@ exports.createTables = async () => {
 
         sql = `SELECT * FROM lightstate`;
 
-        let result = await connection.query(sql);
+        result = await connection.query(sql);
 
         /*Insert the appropriate device types into the devices table. This is to provide reference for post login*/
         if (result.length === 0) {

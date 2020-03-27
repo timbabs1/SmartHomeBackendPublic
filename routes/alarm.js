@@ -9,7 +9,10 @@ router.all('/requestalarm', async function (ctx) { //When sent to server from fr
 
   /*Sends the data to the front end via websocket, extracts latest values, then sends every 10 seconds*/
   let interval = setInterval(async () => {
-    let data = await alarm.alarmCurrentState()
+    let data = {}
+    data.currentState = await alarm.alarmCurrentState()
+    data.autoOnTime = await alarm.autoTurnOnTime();
+    data.autoOffTime = await alarm.autoTurnOffTime();
     return ctx.websocket.send(JSON.stringify(data))
   }, 10000);
 

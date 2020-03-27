@@ -4,7 +4,6 @@ const mqttURL = "mqtt.coventry.ac.uk";
 const fs = require("fs")
 const mqtt = require("mqtt")
 const path = require("path")
-const lightsModel = require("../models/lights")
 
 const options = {
     host: mqttURL,
@@ -53,6 +52,7 @@ exports.publishData = async (topic, message) => {
         jsonMessage = JSON.parse(message)
         client.publish("302CEM/Horse/Requests/HomeSecurity/AcknowledgeIntruderEvent", jsonMessage.IntruderStatus.toString()); //Needs to be the data received from the front end.
         console.log("Intruder Status Published.")
+
     // Format required from front end "{\"SetMotionDetectionState\": <value> }" 
     }else if ('SetMotionDetectionState' in jsonMessage && message.toString().length > 0){
         jsonMessage = JSON.parse(message)
