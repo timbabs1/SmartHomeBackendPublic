@@ -32,26 +32,23 @@ exports.subscribeToData = async (topic) => {
   client.on("message", async (topic, message) => {
     let jsonMessage = await JSON.parse(message.toString())    
     if (topic === "302CEM/Horse/Readings/AutoLights") {
-      if (await lightsModel.processTopic(jsonMessage) === "Change") {
-        return console.log("Changed")
-      } else {
-        return console.log(topic + " message data: " + message.toString());
-      }
+      await lightsModel.processTopic(jsonMessage)
+      return console.log(topic + " message data: " + message.toString());
 
     } else if (topic === "302CEM/Horse/Readings/TemperatureSensor") {
-      if (await temperatureModel.processTopic(jsonMessage) === "Change") {
-        return console.log("Changed")
-      } else {
-        return console.log(topic + " message data: " + message.toString());
-      }
-      
+      await temperatureModel.processTopic(jsonMessage)
+      return console.log(topic + " message data: " + message.toString());
+
     } else if (topic === "302CEM/Horse/Readings/MotionSensor") {
       return console.log(topic + " message data: " + message.toString());
+
     } else if (topic === "302CEM/Horse/Readings/Window") {
       return console.log(topic + " message data: " + message.toString());
+
     } else if (topic === "302CEM/Horse/Readings/HomeSecurity") {
       await alarmModel.processTopic(jsonMessage) === "Change"
       return console.log(topic + " message data: " + message.toString());
+      
     } else {
       return console.log("Unknown Topic. " + "Topic: " + topic.toString() + " Message: " + message.toString())
     }
