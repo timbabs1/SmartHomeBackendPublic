@@ -11,6 +11,8 @@ Current routes:
 
 - /requesttemp
 
+- /requestalarm
+
 
 ## How to run:
 
