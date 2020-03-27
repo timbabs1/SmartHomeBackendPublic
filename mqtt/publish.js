@@ -53,6 +53,11 @@ exports.publishData = async (topic, message) => {
         jsonMessage = JSON.parse(message)
         client.publish("302CEM/Horse/Requests/HomeSecurity/AcknowledgeIntruderEvent", jsonMessage.IntruderStatus.toString()); //Needs to be the data received from the front end.
         console.log("Intruder Status Published.")
+    // Format required from front end "{\"SetMotionDetectionState\": <value> }" 
+    }else if ('SetMotionDetectionState' in jsonMessage && message.toString().length > 0){
+        jsonMessage = JSON.parse(message)
+        client.publish("302CEM/Horse/Requests/HomeSecurity/AcknowledgeIntruderEvent", jsonMessage.SetMotionDetectionState.toString()); //Needs to be the data received from the front end.
+        console.log("Intruder Status Published.")
 
     }else{
         console.log("Unknown Topic")
