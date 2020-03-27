@@ -27,19 +27,33 @@ exports.publishData = async (topic, message) => {
     }else{
         console.log("No JSON Received")
     }
+
     //Format of data required from front end {\"Light_status\" : <value> }.
     if ('Light_status' in jsonMessage && message.toString().length > 0){ // This will send data regarding turning on or off.
         jsonMessage = JSON.parse(message)
-        topic === "302CEM/Horse/Requests/AutoLight"
-        client.publish(topic, "0"); //Needs to be the data received from the front end.
-        client.publish(topic, jsonMessage.Light_status.toString()); //Needs to be the data received from the front end.
-        console.log(topic)
+        client.publish("302CEM/Horse/Requests/AutoLight", "0"); //Needs to be the data received from the front end.
+        client.publish("302CEM/Horse/Requests/AutoLight", jsonMessage.Light_status.toString()); //Needs to be the data received from the front end.
+        console.log("Target Temperature Published.")
+
     // Format required for temp { \"Target_temperature\": \"25\" }.
     }else if ('Target_temperature' in jsonMessage && message.toString().length > 0){
         jsonMessage = JSON.parse(message)
         client.publish("302CEM/Horse/Requests/TemperatureSensor/AutoTempManagement", "0"); //Needs to be the data received from the front end.
         client.publish("302CEM/Horse/Requests/TemperatureSensor/TargetTemperature", jsonMessage.Target_temperature.toString()); //Needs to be the data received from the front end.
-        console.log(topic)
+        console.log("Target Temperature Published.")
+
+    // Format required from front end { \"AlarmActivatationState": \"<value>\"}
+    }else if ('AlarmActivationState' in jsonMessage && message.toString().length > 0){
+        jsonMessage = JSON.parse(message)
+        client.publish("302CEM/Horse/Requests/HomeSecurity/IntruderAlarm", jsonMessage.AlarmActivationState.toString()); //Needs to be the data received from the front end.
+        console.log("Intruder Alarm Activation Status Published.")
+
+    // Format required from front end { \"IntruderStatus": \"<value>\"}
+    }else if ('IntruderStatus' in jsonMessage && message.toString().length > 0){
+        jsonMessage = JSON.parse(message)
+        client.publish("302CEM/Horse/Requests/HomeSecurity/AcknowledgeIntruderEvent", jsonMessage.IntruderStatus.toString()); //Needs to be the data received from the front end.
+        console.log("Intruder Status Published.")
+
     }else{
         console.log("Unknown Topic")
     }
