@@ -3,6 +3,7 @@ const socket = require('koa-websocket');
 const chalk = require('chalk')
 const cors = require('@koa/cors')
 const lights = require('./routes/lights')
+const alarm = require('./routes/alarm')
 const temperature = require('./routes/temperature')
 const subscribe = require('./mqtt/subscribe')
 const database = require('./database/db')
@@ -16,10 +17,10 @@ app.use(cors())
 database.createDatabase()
 database.createTables()
 
-
 // Opens a web socket port to use for communicating with the front end.
 app.ws.use(lights.routes())
 app.ws.use(temperature.routes())
+app.ws.use(alarm.routes())
 
 app.listen(port, () => {
     console.log(`Server running on ${chalk.green(port)}`)
