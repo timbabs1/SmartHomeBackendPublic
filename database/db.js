@@ -63,7 +63,8 @@ exports.createTables = async () => {
             FrontDoorStatus TINYINT,
             BackDoorStatus TINYINT,
             IntruderStatus TINYINT,
-            AlarmActivationState TINYINT,                             
+            AlarmActivationState TINYINT,
+            Event TEXT,                             
             PRIMARY KEY (ID) 
 
         )`;
