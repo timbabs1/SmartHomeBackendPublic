@@ -16,5 +16,7 @@ describe('Test table creation', () => {
     expect.assertions(1);
     const returnedValue = await db.createTables()
     return expect(returnedValue).toEqual('created successfully')
+
   })
+  
 })

@@ -29,7 +29,9 @@ exports.subscribeToData = async (topic) => {
 
   /*Message received*/
   client.on("message", async (topic, message) => {
+    console.log("Received Message on Subscribe")
     let jsonMessage = await JSON.parse(message.toString())
+    console.log("Received Message on Subscribe")
     if (topic === "302CEM/Horse/Readings/AutoLights") {
       if (await lightsModel.processTopic(jsonMessage) === "Change") {
         return console.log("Changed")
@@ -42,14 +44,15 @@ exports.subscribeToData = async (topic) => {
       } else {
         return console.log(topic + " message data: " + message.toString());
       }
-    }else if (topic === "302CEM/Horse/Readings/MotionSensor") {
+      
+    } else if (topic === "302CEM/Horse/Readings/MotionSensor") {
       return console.log(topic + " message data: " + message.toString());
-    }else if (topic === "302CEM/Horse/Readings/Window") {
-        return console.log(topic + " message data: " + message.toString());
-    }else if (topic === "302CEM/Horse/Readings/HomeSecurity") {
-        return console.log(topic + " message data: " + message.toString());
-    }else {
-        return console.log("Unknown Topic. " + "Topic: " + topic.toString() + " Message: " + message.toString())
+    } else if (topic === "302CEM/Horse/Readings/Window") {
+      return console.log(topic + " message data: " + message.toString());
+    } else if (topic === "302CEM/Horse/Readings/HomeSecurity") {
+      return console.log(topic + " message data: " + message.toString());
+    } else {
+      return console.log("Unknown Topic. " + "Topic: " + topic.toString() + " Message: " + message.toString())
     }
   })
 }
