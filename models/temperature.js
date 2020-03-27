@@ -4,6 +4,7 @@ const info = require('../database/config')
 /*Process data coming in on temperature topic(MQTT)*/
 exports.processTopic = async (message) => {
     try {
+        if ('Light_status' in message) {
         const connection = await mysql.createConnection(info.config);
         let sql = `SELECT * FROM temperature Where Room = '${message.Room}'`;
         let data = await connection.query(sql);   //wait for the async code to finish
@@ -18,7 +19,9 @@ exports.processTopic = async (message) => {
             await updateRecord(message.Target_Temperature, message.Temperature, message.Room)
             return "Changed"
         }
-
+    }else{
+        console.log("Unknown temperature data sent from microcontroller")
+    }
 
     } catch (error) {
         if (error.status === undefined)

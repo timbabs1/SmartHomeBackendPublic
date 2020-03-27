@@ -3,23 +3,26 @@ const info = require('../database/config')
 
 /*Process data coming in on lights topic*/
 exports.processTopic = async (message) => {
-    console.log("The message " + message)
-
     try {
-        const connection = await mysql.createConnection(info.config);
-        let sql = `SELECT CurrentState FROM lightstate Where Room = '${message.Room}'`;
-        let data = await connection.query(sql);   //wait for the async code to finish
-        //console.log(data[0])
-        await connection.end(); //wait until connection to db is close.
-        if (data[0].CurrentState === message.Light_status) {
-            console.log("No Change")
-            return "No Change"
-        } else {
-            //Update the record to be the new value. 
-            //Need Room and State in following format e.g "{\"Room\": \"bedroom\", \"Light_status\": 0}"
-            await updateRecord(message.Light_status, message.Room)
-            return "Changed"
+        if ('Light_status' in message) {
+            const connection = await mysql.createConnection(info.config);
+            let sql = `SELECT CurrentState FROM lightstate Where Room = '${message.Room}'`;
+            let data = await connection.query(sql);   //wait for the async code to finish
+            //console.log(data[0])
+            await connection.end(); //wait until connection to db is close.
+            if (data[0].CurrentState === message.Light_status) {
+                console.log("No Change")
+                return "No Change"
+            } else {
+                //Update the record to be the new value. 
+                //Need Room and State in following format e.g "{\"Room\": \"bedroom\", \"Light_status\": 0}"
+                await updateRecord(message.Light_status, message.Room)
+                return "Changed"
+            }
+        }else{
+            console.log("Unknown light data sent from microcontroller")
         }
+
     } catch (error) {
         if (error.status === undefined)
             error.status = 500;
@@ -60,7 +63,7 @@ async function storeRecord(value, room) {
     await connection.query(sql);
 }
 
-exports.lightCurrentState = async function (){
+exports.lightCurrentState = async function () {
     const connection = await mysql.createConnection(info.config);
     let sql = `SELECT * FROM lightstate`;
     let data = await connection.query(sql);   //wait for the async code to finish
