@@ -25,6 +25,8 @@ exports.createDatabase = async () => {
 
     connection.end()
 
+    return "created successfully";
+
 }
 
 /**Table creation.*/
@@ -140,7 +142,9 @@ exports.createTables = async () => {
             }
         }
 
-        return { message: "created successfully" };
+        connection.end()
+
+        return "created successfully";
 
 
     } catch (error) {
