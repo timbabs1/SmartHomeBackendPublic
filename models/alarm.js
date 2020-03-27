@@ -16,19 +16,19 @@ exports.processTopic = async (message) => {
 }
 async function updateRecord(message) {
     const connection = await mysql.createConnection(info.config)
-    if ('Front_door_status' in message) {
+    if ('Front_door_status' in message) { //Comes from microcontroller json string
         let sql = `UPDATE alarmstate SET FrontDoorStatus = '${message.Front_door_status}' WHERE ID = '1'`; //Set the updated value in the DB.
         await connection.query(sql);
-    } else if ('Back_door_status' in message) {
+    } else if ('Back_door_status' in message) { //Comes from microcontroller json string
         let sql = `UPDATE alarmstate SET BackDoorStatus = '${message.Back_door_status}' WHERE ID = '1'`; //Set the updated value in the DB.
         await connection.query(sql);
-    } else if ('Intruder_alarm' in message) {
+    } else if ('Intruder_alarm' in message) { //Comes from microcontroller json string
         let sql = `UPDATE alarmstate SET AlarmActivationState = '${message.Intruder_alarm}' WHERE ID = '1'`; //Set the updated value in the DB.
         await connection.query(sql);
-    } else if ('Intruder_event' in message) {
+    } else if ('Intruder_event' in message) { //Comes from microcontroller json string
         let sql = `UPDATE alarmstate SET IntruderStatus = '${message.Intruder_event}' WHERE ID = '1'`; //Set the updated value in the DB.
         await connection.query(sql);
-    }else if ('Silent_status' in message) {
+    }else if ('Silent_status' in message) { //Comes from microcontroller json string
         let sql = `UPDATE alarmstate SET SilentAlarmStatus = '${message.Silent_status}' WHERE ID = '1'`; //Set the updated value in the DB.
         await connection.query(sql);
     }
@@ -79,6 +79,8 @@ async function storeRecord(message) {
         VALUES('${dateAndTimeFormatting}', '0', '0', '${message.Intruder_event}', '0', 'IntruderEvent')`;
         await connection.query(sql);
         return await connection.end();
+    }else{
+        console.log("Unknown content published from microcontroller.")
     }
 }
 
