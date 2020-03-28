@@ -32,7 +32,7 @@ exports.publishData = async (topic, message) => {
         jsonMessage = JSON.parse(message)
         client.publish("302CEM/Horse/Requests/AutoLight", "0"); //Needs to be the data received from the front end.
         client.publish("302CEM/Horse/Requests/AutoLight", jsonMessage.Light_status.toString()); //Needs to be the data received from the front end.
-        console.log("Target Temperature Published.")
+        console.log("Light status Published.")
 
     // Format required for temp { \"Target_temperature\": \"25\" }.
     }else if ('Target_Temperature' in jsonMessage && message.toString().length > 0){
@@ -40,6 +40,12 @@ exports.publishData = async (topic, message) => {
         client.publish("302CEM/Horse/Requests/TemperatureSensor/AutoTempManagement", "0"); //Needs to be the data received from the front end.
         client.publish("302CEM/Horse/Requests/TemperatureSensor/TargetTemperature", jsonMessage.Target_temperature.toString()); //Needs to be the data received from the front end.
         console.log("Target Temperature Published.")
+
+    // Format required from front end { \"LightSetting": \"<value>\", \"Room\": <value> }
+    }else if ('LightSetting' in jsonMessage && message.toString().length > 0){
+        jsonMessage = JSON.parse(message)
+        client.publish("302CEM/Horse/Requests/AutoLight/Slider", jsonMessage.toString()); //Needs to be the data received from the front end.
+        console.log("Brightness Setting Published.")
 
     // Format required from front end { \"AlarmActivatationState": \"<value>\"}
     }else if ('AlarmActivationState' in jsonMessage && message.toString().length > 0){
