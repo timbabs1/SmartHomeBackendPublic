@@ -92,7 +92,6 @@ exports.turnOnTimeDay = async function (Room){
     await connection.end();//wait until connection to db is closed
     //console.log(data)
     let averageDay = await splitTime(data)
-    console.log(averageDay)
     return averageDay
 
 }
@@ -102,7 +101,6 @@ async function splitTime (dataToSplit){
     let hours = []
     let mins = []
     let secs = []
-    console.log(dataToSplit)
     for(let i = 0; i < dataToSplit.length; i++){
         tempHours = JSON.stringify(dataToSplit[i].DateTime)
         hours.push(parseInt(tempHours.substring(12, 14), 10))
@@ -153,7 +151,6 @@ exports.turnOnTimeNight = async function (Room){
     data = await connection.query(sql);   //wait for the async code to finish.
     await connection.end();//wait until connection to db is closed
     let averageNight = await splitTime(data)
-    console.log(averageNight)
     return averageNight
     // Extract the data from the db for day and night turn on sections.
     // Convert the numbers hours, minutes and seconds
