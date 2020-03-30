@@ -6,7 +6,9 @@ const lights = require('../models/lights')
 
 /*The path to a constant connection. Incoming connections can be specifically tagged to target different routes to get different functionalities*/
 router.all('/requestlight', async function (ctx) { //When sent to server from frontend using the /requestlight route. 
-
+  
+  let data = await lights.lightCurrentState()
+  ctx.websocket.send(JSON.stringify(data))
   /*Sends the data to the front end via websocket, extracts latest values, then sends every 10 seconds*/
   let interval = setInterval(async () => {
     let data = await lights.lightCurrentState()

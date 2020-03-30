@@ -7,7 +7,11 @@ const publish = require('../mqtt/publish')
 /*The path to a constant connection. Incoming connections can be specifically tagged to target different routes to get different functionalities*/
 router.all('/requesttemp', async function (ctx) { //When sent to server from frontend using the /requestlight route. 
 
-  ctx.websocket.send("Connected To Temp Websocket.")
+  let data = {}
+    data.currentState = await temperature.currentState();
+    data.predictedTurnOnDay = await temperature.turnOnTimeDay("Bedroom");
+    data.predictedTurnOnNight = await temperature.turnOnTimeNight("Bedroom");
+    ctx.websocket.send(JSON.stringify(data))
 
   /*Sends the data to the front end via websocket, extracts latest values, then sends every 20 seconds*/
   let interval = setInterval(async () => {
