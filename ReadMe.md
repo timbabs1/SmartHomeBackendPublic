@@ -31,6 +31,7 @@ clone the repository:
     - Target temperature, current temperature, day/night setting and room.
     - Light on or off information.
     - All data stored in mysql is pushed to the front end every 10 seconds.
+    - Alarm data as per the backend data structure file in teams
 
 To Note:
 
