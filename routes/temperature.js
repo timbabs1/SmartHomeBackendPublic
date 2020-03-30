@@ -20,7 +20,6 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
 
   const topic = "302CEM/Horse/Requests/Temperature" //topic to send requests for lights.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
-    console.log(message)
     if (message === "close") {
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
@@ -31,8 +30,7 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
       console.log("publishing")
       /*{\"Room\": \"roomName\",  //Data format.
         \"Target_Temperature\": \"<value>\", 
-        \"Temperature\":\"currentTemp\",
-        \"Setting\": \"<Day/Night>\"}*/
+        \"Temperature\":\"<value>\"}*/
       //Step 1. fill the log table.
       //Step 2. send the data to the mqtt server.
       //Need method here to handle the incoming data. This will be request based and fill in the LOG table with FE requests.

@@ -21,8 +21,11 @@ const client = mqtt.connect(mqttURL, options); //Connect to Broker
 /* Takes the target topic(String) as argument from the light route*/
 exports.publishData = async (topic, message) => {
     let jsonMessage = {}
+    console.log(message.toString())
+    console.log(topic)
     if(message.toString().length > 0 && JSON.parse(message)){
         jsonMessage = JSON.parse(message)
+        console.log(message.toString())
     }else{
         console.log("No JSON Received")
     }
@@ -38,7 +41,7 @@ exports.publishData = async (topic, message) => {
     }else if ('Target_Temperature' in jsonMessage && message.toString().length > 0){
         jsonMessage = JSON.parse(message)
         client.publish("302CEM/Horse/Requests/TemperatureSensor/AutoTempManagement", "0"); //Needs to be the data received from the front end.
-        client.publish("302CEM/Horse/Requests/TemperatureSensor/TargetTemperature", jsonMessage.Target_temperature.toString()); //Needs to be the data received from the front end.
+        client.publish("302CEM/Horse/Requests/TemperatureSensor/TargetTemperature", jsonMessage.Target_Temperature.toString()); //Needs to be the data received from the front end.
         console.log("Target Temperature Published.")
 
     // Format required from front end { \"LightSetting": \"<value>\", \"Room\": <value> }
