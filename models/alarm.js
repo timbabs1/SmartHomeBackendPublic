@@ -1,6 +1,5 @@
 const mysql = require('promise-mysql')
 const info = require('../database/config')
-const moment = require('moment')
 
 /*Process data coming in on alarm topic*/
 exports.processTopic = async (message) => {
@@ -121,7 +120,6 @@ exports.autoTurnOnTime = async function (){
     data = await connection.query(sql);   //wait for the async code to finish.
     await connection.end();//wait until connection to db is closed
     let averageDay = await splitTime(data)
-    /* let date1 = moment(data[0].DateTime).format('MMMM Do YYYY, h:mm:ss a') */
     return averageDay
 
 }
@@ -134,8 +132,6 @@ exports.autoTurnOffTime = async function (){
     await connection.end();//wait until connection to db is closed
     //console.log(data)
     let averageDay = await splitTime(data)
-    /* let date1 = moment(data[0].DateTime).format('MMMM Do YYYY, h:mm:ss a')
-    return date1 */
     return averageDay
 
 }
