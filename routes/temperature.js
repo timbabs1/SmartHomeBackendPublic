@@ -20,17 +20,18 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
     data.predictedTurnOnDay = await temperature.turnOnTimeDay("Bedroom");
     data.predictedTurnOnNight = await temperature.turnOnTimeNight("Bedroom");
     return ctx.websocket.send(JSON.stringify(data))
-  }, 10000);
+  }, 5000);
 
   const topic = "302CEM/Horse/Requests/Temperature" //topic to send requests for lights.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
-    if (message === "close") {
+    if (message === "\"close\"") {
+      ctx.websocket.send("Closing Websocket")
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
-    } else if (message === "logs") { //Send a request that simply states logs.
+    } else if (message === "\"logs\"") { //Send a request that simply states logs.
       let data = await temperature.logRequest()
       ctx.websocket.send(JSON.stringify(data))
-    } else if(message != "logs" || message != "close") {
+    } else if(message != "\"logs\"" || message != "\"close\"") {
       console.log("publishing")
       /*{\"Room\": \"roomName\",  //Data format.
         \"Target_Temperature\": \"<value>\", 

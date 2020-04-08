@@ -130,7 +130,6 @@ exports.autoTurnOffTime = async function (){
     let sql = `SELECT DateTime FROM alarmlog where AlarmActivationState = '0' AND Event = 'AlarmActivation'`; //Grabs all data from temperature table and sends it.
     data = await connection.query(sql);   //wait for the async code to finish.
     await connection.end();//wait until connection to db is closed
-    //console.log(data)
     let averageDay = await splitTime(data)
     return averageDay
 
