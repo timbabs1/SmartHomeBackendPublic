@@ -21,6 +21,7 @@ const client = mqtt.connect(mqttURL, options); //Connect to Broker
 /* Takes the target topic(String) as argument from the light route*/
 exports.publishData = async (topic, message) => {
     let jsonMessage = {}
+    console.log(message.toString())
     if(message.toString().length > 0 && JSON.parse(message)){
         jsonMessage = JSON.parse(message)
     }else{

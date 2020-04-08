@@ -13,7 +13,7 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
   let interval = setInterval(async () => {
     let data = await lights.lightCurrentState()
     return ctx.websocket.send(JSON.stringify(data))
-  }, 20000);
+  }, 5000);
 
   const topic = "302CEM/Horse/Requests/AutoLight" //topic to send requests for lights.
     await ctx.websocket.on('message', async function (message) { //Message received, run this function.

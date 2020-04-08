@@ -20,7 +20,7 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
     data.predictedTurnOnDay = await temperature.turnOnTimeDay("Bedroom");
     data.predictedTurnOnNight = await temperature.turnOnTimeNight("Bedroom");
     return ctx.websocket.send(JSON.stringify(data))
-  }, 10000);
+  }, 5000);
 
   const topic = "302CEM/Horse/Requests/Temperature" //topic to send requests for lights.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.

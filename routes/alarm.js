@@ -3,9 +3,8 @@ const router = new Router();
 const publish = require('../mqtt/publish')
 const alarm = require('../models/alarm')
 
-
 /*The path to a constant connection. Incoming connections can be specifically tagged to target different routes to get different functionalities*/
-router.all('/requestalarm', async function (ctx) { //When sent to server from frontend using the /requestlight route. 
+router.all('/requestalarm', async function (ctx) { //When sent to server from frontend using the /requestalarm route. 
 
   let data = {}
     data.currentState = await alarm.alarmCurrentState()
@@ -20,7 +19,7 @@ router.all('/requestalarm', async function (ctx) { //When sent to server from fr
     data.autoOnTime = await alarm.autoTurnOnTime();
     data.autoOffTime = await alarm.autoTurnOffTime();
     return ctx.websocket.send(JSON.stringify(data))
-  }, 10000);
+  }, 5000);
 
   const topic = "302CEM/Horse/Requests/Alarm" //topic to send requests for alarm.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
