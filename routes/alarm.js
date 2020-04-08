@@ -24,7 +24,8 @@ router.all('/requestalarm', async function (ctx) { //When sent to server from fr
   const topic = "302CEM/Horse/Requests/Alarm" //topic to send requests for alarm.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
     console.log(message) //Display the current message received via websocket.
-    if (message === "close") {
+    if (message === "\"close\"") {
+      ctx.websocket.send("Closing Websocket")
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
     } else if (message === "\"logs\"") { //Send a request that simply states logs.

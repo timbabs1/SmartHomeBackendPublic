@@ -24,7 +24,8 @@ router.all('/requesttemp', async function (ctx) { //When sent to server from fro
 
   const topic = "302CEM/Horse/Requests/Temperature" //topic to send requests for lights.
   await ctx.websocket.on('message', async function (message) { //Message received, run this function.
-    if (message === "close") {
+    if (message === "\"close\"") {
+      ctx.websocket.send("Closing Websocket")
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
     } else if (message === "\"logs\"") { //Send a request that simply states logs.
