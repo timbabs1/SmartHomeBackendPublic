@@ -21,10 +21,10 @@ router.all('/requestlight', async function (ctx) { //When sent to server from fr
     if (message === "close") {
       ctx.websocket.close()
       clearInterval(interval)//Closes the connection, best to send "close" when navigating from page on front end.
-    } else if (message === "logs") { //Send a request that simply states logs.
+    } else if (message === "\"logs\"") { //Send a request that simply states logs.
       let data = await lights.logRequest()
       ctx.websocket.send(JSON.stringify(data))
-    } else if(message != "logs" || message != "close") {
+    } else if(message != "\"logs\"" || message != "\"close\"") {
       console.log("publishing")
       publish.publishData(topic, message) //Received message on websocket so publish it.
     }
